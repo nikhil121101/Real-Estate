@@ -1,4 +1,4 @@
-package real_estate;
+package Project;
 
 import java.sql.*;
 import java.util.*;
@@ -9,11 +9,10 @@ import java.util.*;
  */
 public class SearchFrame extends javax.swing.JFrame {
     
-    private static Connection conn; 
+    private static Connection conn = Database.connection; 
     
-    public SearchFrame(Connection conn) {
+    public SearchFrame() {
         initComponents();
-        this.conn = conn;
     }
 
     /**
@@ -392,7 +391,7 @@ public class SearchFrame extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new SearchFrame(conn).setVisible(true);
+                new SearchFrame().setVisible(true);
             }
         });
     }

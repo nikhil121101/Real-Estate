@@ -125,7 +125,7 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if(connectDatabse(username_edit_text.getText(), password_edit_text.getText())) {
             this.setVisible(false);
-            new EditEstate().setVisible(true);
+            new Menu().setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
