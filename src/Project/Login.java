@@ -101,7 +101,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    private void connectDatabse(String username_string, String password_string) {
+    private boolean connectDatabse(String username_string, String password_string) {
         
         String url = "jdbc:mysql://localhost:3306/REAL_ESTATE";
         
@@ -109,22 +109,24 @@ public class Login extends javax.swing.JFrame {
             Database.connection = DriverManager.getConnection(url, username_string, password_string);
             
             System.out.println("database connected");
+            return true;
             
         } catch (SQLException e) {
             
             JOptionPane.showMessageDialog(this, "Incorrect username or password");
             username_edit_text.setText("");
             password_edit_text.setText("");
+            return false;
 //            System.out.println("SQL Exception: " + e);
 //            System.exit(0);
         }
     }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        connectDatabse(username_edit_text.getText(), password_edit_text.getText());
-        this.setVisible(false);
-        new EditEstate().setVisible(true);
-        
+        if(connectDatabse(username_edit_text.getText(), password_edit_text.getText())) {
+            this.setVisible(false);
+            new EditEstate().setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void username_edit_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_username_edit_textActionPerformed

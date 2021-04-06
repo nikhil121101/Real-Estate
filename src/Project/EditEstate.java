@@ -5,6 +5,7 @@
  */
 package Project;
 
+import com.mysql.cj.util.StringUtils;
 import java.sql.*;
 
 import java.awt.GridBagLayout;
@@ -46,10 +47,10 @@ public class EditEstate extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        updateEstaeId = new javax.swing.JTextField();
         proceedUpdate = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        deleteEstateID = new javax.swing.JTextField();
         proceedDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,9 +81,9 @@ public class EditEstate extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Enter Estate_Id:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        updateEstaeId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                updateEstaeIdActionPerformed(evt);
             }
         });
 
@@ -96,9 +97,9 @@ public class EditEstate extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Enter Estate_Id:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        deleteEstateID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                deleteEstateIDActionPerformed(evt);
             }
         });
 
@@ -134,7 +135,7 @@ public class EditEstate extends javax.swing.JFrame {
                         .addGap(196, 196, 196)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(updateEstaeId, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -146,7 +147,7 @@ public class EditEstate extends javax.swing.JFrame {
                             .addGap(198, 198, 198)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(deleteEstateID, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -165,7 +166,7 @@ public class EditEstate extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateEstaeId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(proceedUpdate)
@@ -176,7 +177,7 @@ public class EditEstate extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteEstateID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(proceedDelete)
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -185,20 +186,117 @@ public class EditEstate extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void updateEstaeIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateEstaeIdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_updateEstaeIdActionPerformed
 
     private void proceedUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedUpdateActionPerformed
-        // TODO add your handling code here:
+        if(updateEstaeId.getText().isBlank() || updateEstaeId.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "EstateId can't be empty!",
+               "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int text_size = 30;
+        
+        JTextField appartmentNo = new JTextField(text_size);
+        JTextField streetName = new JTextField(text_size);
+        JTextField city = new JTextField(text_size);
+        JTextField state = new JTextField(text_size);
+        JTextField country = new JTextField(text_size);
+        JTextField pincode = new JTextField(text_size);
+        JTextField fieldSize = new JTextField(text_size);
+        JTextField bedrooms = new JTextField(text_size);
+        JTextField bathrooms = new JTextField(text_size);
+        JTextField status = new JTextField(text_size);
+        JTextField price = new JTextField(text_size);
+        
+
+        JPanel estaePannel = new JPanel(new GridLayout(0,1));
+        
+        estaePannel.add(new JLabel("appartmentNo:"));
+        estaePannel.add(appartmentNo);
+        
+        estaePannel.add(new JLabel("streetName:"));
+        estaePannel.add(streetName);
+        
+        estaePannel.add(new JLabel("city:"));
+        estaePannel.add(city);
+        
+        estaePannel.add(new JLabel("state:"));
+        estaePannel.add(state);
+        
+        estaePannel.add(new JLabel("country:"));
+        estaePannel.add(country);
+        
+        estaePannel.add(new JLabel("pincode:"));
+        estaePannel.add(pincode);
+        
+        estaePannel.add(new JLabel("fieldSize:"));
+        estaePannel.add(fieldSize);
+
+        estaePannel.add(new JLabel("bedrooms:"));
+        estaePannel.add(bedrooms);
+        
+        estaePannel.add(new JLabel("bathrooms:"));
+        estaePannel.add(bathrooms);
+        
+        estaePannel.add(new JLabel("status:"));
+        estaePannel.add(status);
+        
+        estaePannel.add(new JLabel("price:"));
+        estaePannel.add(price);
+
+        
+      int result = JOptionPane.showConfirmDialog(null, estaePannel, 
+               "Please Enter New Updated Estate details", JOptionPane.OK_CANCEL_OPTION);
+      if (result == JOptionPane.OK_OPTION) {
+         if(!(
+                 appartmentNo.getText().isBlank()  || appartmentNo.getText().isEmpty() || 
+                 streetName.getText().isBlank()  || streetName.getText().isEmpty() || 
+                 city.getText().isBlank()  || city.getText().isEmpty() || 
+                 state.getText().isBlank()  || state.getText().isEmpty() || 
+                 country.getText().isBlank()  || country.getText().isEmpty() || 
+                 pincode.getText().isBlank()  || pincode.getText().isEmpty() || 
+                 fieldSize.getText().isBlank()  || fieldSize.getText().isEmpty() || 
+                 bedrooms.getText().isBlank()  || bedrooms.getText().isEmpty() || 
+                 bathrooms.getText().isBlank()  || bathrooms.getText().isEmpty() || 
+                 status.getText().isBlank()  || status.getText().isEmpty() || 
+                 price.getText().isBlank()  || price.getText().isEmpty()
+                 )) {
+                    
+                updateEstate(
+                 updateEstaeId.getText(),
+                 appartmentNo.getText(),
+                 streetName.getText(), city.getText(),
+                 state.getText(), country.getText(),
+                 Integer.parseInt(pincode.getText()) , fieldSize.getText(),
+                 Integer.parseInt(bedrooms.getText()) , Integer.parseInt(bathrooms.getText()),
+                 status.getText(), Long.parseLong(price.getText())
+                 );
+                    
+            }
+            
+            else {
+                
+                JOptionPane.showMessageDialog(this, "All attributes are mandatory!",
+               "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+                
+            }
+           
+         }
     }//GEN-LAST:event_proceedUpdateActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void deleteEstateIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEstateIDActionPerformed
+        
+    }//GEN-LAST:event_deleteEstateIDActionPerformed
 
     private void proceedDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proceedDeleteActionPerformed
-        JOptionPane.showMessageDialog(this, "Estate deleted");
+        if(deleteEstateID.getText().isBlank() || deleteEstateID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "EstateId can't be empty!",
+               "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        deleteEstae(deleteEstateID.getText());
     }//GEN-LAST:event_proceedDeleteActionPerformed
 
     private void newEstateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newEstateActionPerformed
@@ -371,6 +469,7 @@ public class EditEstate extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField deleteEstateID;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -378,11 +477,10 @@ public class EditEstate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton newEstate;
     private javax.swing.JButton proceedDelete;
     private javax.swing.JButton proceedUpdate;
+    private javax.swing.JTextField updateEstaeId;
     // End of variables declaration//GEN-END:variables
 
     private boolean addEstate(String estateId, String appartmentNo, String streetName,
@@ -435,5 +533,81 @@ public class EditEstate extends javax.swing.JFrame {
         }
        
         return true;
+    }
+
+    private void updateEstate(String estateId, String appartmentNo, String streetName,
+            String city, String state, String country, int pincode, String fieldSize,
+            int bedrooms, int bathrooms, String status, long price) {
+        String update_query = "Update estate set Apartment_No = ? , Street_Name = ?, City = ?,"
+                + "State = ?, Country = ?, Pincode = ?, Field_Size = ?, Number_Of_Bedrooms = ?,"
+                + "Number_Of_Bathrooms = ? , Status = ?, Price = ? where Estate_Id = ?";
+        int rowsAffected = 0;
+        try {
+            
+            PreparedStatement stmt = Database.connection.prepareStatement(update_query);
+            
+            stmt.setString(1, appartmentNo);    stmt.setString(2, streetName);
+            stmt.setString(3, city);    stmt.setString(4, state);    stmt.setString(5, country);
+            stmt.setInt(6, pincode);    stmt.setString(7, fieldSize);    stmt.setInt(8, bedrooms);
+            stmt.setInt(9, bathrooms);    stmt.setString(10, status);    stmt.setLong(11, price);
+            stmt.setString(12, estateId);    
+            rowsAffected = stmt.executeUpdate();
+            System.out.println("row affected: " + rowsAffected);
+            JOptionPane.showMessageDialog(this, "rows: affected: " + rowsAffected , "succesfull", JOptionPane.OK_OPTION);
+            updateEstaeId.setText("");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+        }
+        
+       
+    }
+
+    private void deleteEstae(String estateId) {
+        
+        //getting customer_id
+        String get_owner_id_query = "select Owner_Id from owned_by where Estate_Id = ?";
+        ResultSet rs;
+        PreparedStatement stmt;
+        String ownerId = "";
+        try {
+            stmt = Database.connection.prepareStatement(get_owner_id_query);
+            stmt.setString(1, estateId);    
+            rs = stmt.executeQuery();
+            if(rs.next()) {
+                ownerId = rs.getString(1);
+            }
+            else {
+                JOptionPane.showMessageDialog(this, "Icorrect Estate_Id", "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            System.out.println("cant fetch owner associated with estae");
+            return;
+        }
+        
+        
+        
+        String delete__estate_query = "Delete from estate where Estate_Id = ?";
+        String delete__owned_by_query = "Delete from owned_by where Estate_Id = ?";
+        String delete__owner_query = "Delete from owner where Owner_Id = ?";
+        int rowsAffected = 0;
+        try {
+            
+            stmt = Database.connection.prepareStatement(delete__owned_by_query);
+            stmt.setString(1, estateId);    
+            rowsAffected = stmt.executeUpdate();
+            stmt = Database.connection.prepareStatement(delete__estate_query);
+            stmt.setString(1, estateId);    
+            stmt.executeUpdate();
+            stmt = Database.connection.prepareStatement(delete__owner_query);
+            stmt.setString(1, ownerId);    
+            stmt.executeUpdate();
+            
+            
+            System.out.println("row affected: " + rowsAffected);
+            JOptionPane.showMessageDialog(this, "rows: affected: " + rowsAffected , "succesfull", JOptionPane.OK_OPTION);
+            updateEstaeId.setText("");
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
