@@ -540,8 +540,8 @@ public class EditEstate extends javax.swing.JFrame {
             String city, String state, String country, int pincode, String fieldSize,
             int bedrooms, int bathrooms, String status, long price) {
         String update_query = "Update estate set Apartment_No = ? , Street_Name = ?, City = ?,"
-                + "State = ?, Country = ?, Pincode = ?, Field_Size = ?, Number_Of_Bedrooms = ?,"
-                + "Number_Of_Bathrooms = ? , Status = ?, Price = ? where Estate_Id = ?";
+                + "State = ?, Country = ?, Pincode = ?, Field_Size = ?, No_Of_Bedrooms = ?,"
+                + "No_Of_Bathrooms = ? , Status = ?, Price = ? where Estate_Id = ?";
         int rowsAffected = 0;
         try {
             

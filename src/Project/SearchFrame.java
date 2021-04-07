@@ -302,7 +302,7 @@ public class SearchFrame extends javax.swing.JFrame {
             }
             if(values[4].equals("")) values[4] = "0";
             if(values[5].equals("")) values[5] = Integer.toString(Integer.MAX_VALUE);
-            pStmt = conn.prepareStatement("SELECT Field_Size, Number_Of_Bedrooms as No_Of_Bedroom, Price, Street_Name, City, State, Country from estate natural join in_charge where Street_Name Like ? AND City Like ? AND State Like ? AND Country Like ? AND Price >= ? AND Price <= ? AND Number_Of_Bedrooms >= ? AND Status LIKE ? ORDER BY PRICE " + order);
+            pStmt = conn.prepareStatement("SELECT Field_Size, No_Of_Bedrooms as No_Of_Bedrooms, Price, Street_Name, City, State, Country from estate natural join in_charge where Street_Name Like ? AND City Like ? AND State Like ? AND Country Like ? AND Price >= ? AND Price <= ? AND No_Of_Bedrooms >= ? AND Status LIKE ? ORDER BY PRICE " + order);
             for(int i=0; i<8; i++) {
             	pStmt.setString(i+1, values[i]);
             }
