@@ -33,11 +33,11 @@ public class Database {
             st.setString(1, role);
             ResultSet res = st.executeQuery();
             
-            System.out.println("came here");
-            
             st = Database.connection.prepareStatement("use real_estate");
-            
+            st.executeQuery();
             Database.role = role;
+            
+            System.out.println("came here");
             return true;
             
         } catch (SQLException e) {
