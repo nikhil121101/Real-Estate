@@ -54,8 +54,6 @@ public class EditEstate extends javax.swing.JFrame {
         deleteEstateID = new javax.swing.JTextField();
         proceedDelete = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         newEstate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         newEstate.setText("New +");
         newEstate.addActionListener(new java.awt.event.ActionListener() {
@@ -497,7 +495,7 @@ public class EditEstate extends javax.swing.JFrame {
             stmt.setString(1, estateId);    stmt.setString(2, appartmentNo);    stmt.setString(3, streetName);
             stmt.setString(4, city);    stmt.setString(5, state);    stmt.setString(6, country);
             stmt.setInt(7, pincode);    stmt.setString(8, fieldSize);    stmt.setInt(9, bedrooms);
-            stmt.setInt(10, bathrooms);    stmt.setString(11, status);    stmt.setLong(12, price);
+            stmt.setInt(10, bathrooms);    stmt.setString(12, status);    stmt.setLong(11, price);
             
             System.out.println("row affected: " + stmt.executeUpdate());
             
@@ -602,11 +600,9 @@ public class EditEstate extends javax.swing.JFrame {
             stmt = Database.connection.prepareStatement(delete__owner_query);
             stmt.setString(1, ownerId);    
             stmt.executeUpdate();
-            
-            
             System.out.println("row affected: " + rowsAffected);
             JOptionPane.showMessageDialog(this, "rows: affected: " + rowsAffected , "succesfull", JOptionPane.OK_OPTION);
-            updateEstaeId.setText("");
+            deleteEstateID.setText("");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Unsuccesfull", JOptionPane.ERROR_MESSAGE);
         }

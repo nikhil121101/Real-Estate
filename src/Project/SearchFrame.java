@@ -1,7 +1,9 @@
 package Project;
 
+import static Project.Office.r;
 import java.sql.*;
 import java.util.*;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -9,10 +11,12 @@ import java.util.*;
  */
 public class SearchFrame extends javax.swing.JFrame {
     
-    private static Connection conn = Database.connection; 
+    private static Connection conn; 
     
     public SearchFrame() {
         initComponents();
+        Database.connectDatabse(this, "root", "NIKHIL@121101");
+        conn = Database.connection;
     }
 
     /**
@@ -50,7 +54,6 @@ public class SearchFrame extends javax.swing.JFrame {
         editMenu = new javax.swing.JMenu();
         viewMenu = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Real_Estate");
         setMinimumSize(new java.awt.Dimension(570, 375));
 
@@ -95,7 +98,7 @@ public class SearchFrame extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Area", "No of bedrooms", "Price", "Street"
             }
         ));
         jScrollPane1.setViewportView(resultTable);
@@ -285,27 +288,76 @@ public class SearchFrame extends javax.swing.JFrame {
         else order="Desc";
         try {
             String[] values = new String[8];
+            
+            String finalQuery = "SELECT Field_Size, No_Of_Bedrooms as No_Of_Bedrooms, Price, Street_Name, City, State, Country from estate natural join in_charge where ";
+            
+            String query = "";
+            
+            
             values[0] = streetNameTextField.getText();
+            if(!(values[0].isEmpty() || values[0].isBlank()))
+                query += "Street_Name Like ? ";
+            
             values[1] = cityTextField.getText();
+            if(!(values[1].isEmpty() || values[1].isBlank()))
+                query += "AND City Like ? ";
+            
             values[2] = stateTextField.getText();
+            if(!(values[2].isEmpty() || values[2].isBlank()))
+                query += "AND State Like ? ";
+            
             values[3] = countryTextField.getText();
+            if(!(values[3].isEmpty() || values[3].isBlank()))
+                query += "AND Country Like ? ";
+            
             values[4] = priceToTextField.getText();
+            if(!(values[4].isEmpty() || values[4].isBlank()))
+                query += "AND Price <= ? ";
+            
             values[5] = priceFromTextField.getText();
+            if(!(values[5].isEmpty() || values[5].isBlank()))
+                query += "AND Price >= ? ";
+            
             values[6] = bedroomSpinner.getValue().toString();
+            if(!(values[6].isEmpty() || values[6].isBlank()))
+                query += "AND No_Of_Bedrooms >= ? ";
+            
             values[7] = (String)availableForComboBox.getSelectedItem();
             if(values[7].equals("Both for Sell and Rent")) values[7] = "Available%";
-            else if(values[7].equals("Sell Only")) values[7] = "%Sell";
+            else if(values[7].equals("Sell Only")) values[7] = "%Sale";
             else values[7] = "%Rent";
-       	
-            for(int i=0; i<4; i++) {
-                if(values[i].equals("")) values[i] = "%";
+            
+            if(!(values[7].isEmpty() || values[7].isBlank()))
+                query += "AND Status LIKE ? ";
+            query += "ORDER BY PRICE " + order;
+            
+            if(query.startsWith("AND")) {
+                query = query.substring(4);
             }
-            if(values[4].equals("")) values[4] = "0";
-            if(values[5].equals("")) values[5] = Integer.toString(Integer.MAX_VALUE);
-            pStmt = conn.prepareStatement("SELECT Field_Size, No_Of_Bedrooms as No_Of_Bedrooms, Price, Street_Name, City, State, Country from estate natural join in_charge where Street_Name Like ? AND City Like ? AND State Like ? AND Country Like ? AND Price >= ? AND Price <= ? AND No_Of_Bedrooms >= ? AND Status LIKE ? ORDER BY PRICE " + order);
+            
+            finalQuery += query;
+            
+            System.out.println(finalQuery);
+            
+//            for(int i=0; i<4; i++) {
+//                if(values[i].equals("")) values[i] = "%";
+//            }
+//            if(values[4].equals("")) values[4] = "0";
+//            if(values[5].equals("")) values[5] = Integer.toString(Integer.MAX_VALUE);
+            pStmt = conn.prepareStatement(finalQuery);
+            
+            int cnt = 1;
             for(int i=0; i<8; i++) {
-            	pStmt.setString(i+1, values[i]);
+                if(values[i].isBlank() || values[i].isEmpty()) {
+                    continue;
+                }
+                if(i == 4 || i == 5 || i == 6)
+                    pStmt.setInt(cnt, Integer.parseInt(values[i]));
+                else 
+                    pStmt.setString(cnt, values[i]);
+                cnt++;
             }
+            
             //System.out.println(pStmt);
             runQuery(pStmt);
             pStmt.close();
@@ -331,42 +383,59 @@ public class SearchFrame extends javax.swing.JFrame {
 	int i, row, col;
 	try {
             rset = pStmt.executeQuery();
-            rsmd = rset.getMetaData();
-            row = 0; col = rsmd.getColumnCount();            
-            //Check Result is not empty
-            if(!rset.next()) {
-		System.out.println("Empty set.\n");
-                return;
+//            rsmd = rset.getMetaData();
+//            row = 0; col = rsmd.getColumnCount();            
+//            //Check Result is not empty
+//            if(!rset.next()) {
+//		System.out.println("Empty set.\n");
+//                return;
+//            }
+//				
+//            //Calculate Column width
+//            for(i=1; i<=col; i++) {
+//                columnWidth.add(Math.max(rsmd.getColumnDisplaySize(i), rsmd.getColumnName(i).length()));
+//            }
+//				
+//            //Print Column Heading
+//            printHelper(col, columnWidth);
+//            for(i=1; i<=col; i++) {
+//                System.out.format("| %-" + columnWidth.get(i-1) + "s ", rsmd.getColumnName(i));
+//            }
+//            System.out.println(" |");
+//            printHelper(col, columnWidth);
+//				
+//            //Print Result
+//            do {
+//                for(i=1; i<=col; i++) {
+//                    System.out.format("| %-" + columnWidth.get(i-1) + "s ", rset.getString(i));
+//                }
+//                System.out.println(" |");
+//		row++;
+//            } while(rset.next());
+//            printHelper(col, columnWidth);
+//            System.out.println(row + " rows\n");
+//            columnWidth.clear();
+            DefaultTableModel m = clear();
+              
+            int ncol = m.getColumnCount();
+            String[] row_arr = new String[ncol];
+            int j;
+            for (i = 0; rset.next(); ++i) {
+               for (j = 0; j < ncol; ++j) 
+                 row_arr[j] = rset.getString(j+1);
+            m.addRow(row_arr);
             }
-				
-            //Calculate Column width
-            for(i=1; i<=col; i++) {
-                columnWidth.add(Math.max(rsmd.getColumnDisplaySize(i), rsmd.getColumnName(i).length()));
-            }
-				
-            //Print Column Heading
-            printHelper(col, columnWidth);
-            for(i=1; i<=col; i++) {
-                System.out.format("| %-" + columnWidth.get(i-1) + "s ", rsmd.getColumnName(i));
-            }
-            System.out.println(" |");
-            printHelper(col, columnWidth);
-				
-            //Print Result
-            do {
-                for(i=1; i<=col; i++) {
-                    System.out.format("| %-" + columnWidth.get(i-1) + "s ", rset.getString(i));
-                }
-                System.out.println(" |");
-		row++;
-            } while(rset.next());
-            printHelper(col, columnWidth);
-            System.out.println(row + " rows\n");
-            columnWidth.clear();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+    public DefaultTableModel clear() {
+       DefaultTableModel m = (DefaultTableModel) resultTable.getModel();
+       m.setNumRows(0);
+       return m;
+   }
     
     public void display() {
         try {
