@@ -20,25 +20,31 @@ public class Database {
     static Connection connection;
     static String role;
     
-    public static boolean connectDatabse(Component parent, String username, String password) {
+    public static boolean connectDatabse(Component parent, String username, String password, String role) {
         
-        String url = "jdbc:mysql://localhost:3306/REAL_ESTATE";
+        String url = "jdbc:mysql://localhost:3306";
         
         try {
             Database.connection = DriverManager.getConnection(url, username, password);
-            PreparedStatement st = Database.connection.prepareStatement("Select role from Role where username = ?");
-            st.setString(1, username);
+            
+//            System.out.println("came here");
+            
+            PreparedStatement st = Database.connection.prepareStatement("set role ?");
+            st.setString(1, role);
             ResultSet res = st.executeQuery();
-            res.next();
-            Database.role = res.getString(1);
+            
+            System.out.println("came here");
+            
+            st = Database.connection.prepareStatement("use real_estate");
+            
+            Database.role = role;
             return true;
             
         } catch (SQLException e) {
             
-            JOptionPane.showMessageDialog(parent, "Incorrect username or password");
+            JOptionPane.showMessageDialog(parent, e.getMessage());
+            
             return false;
-//            System.out.println("SQL Exception: " + e);
-//            System.exit(0);
         }
     }
     

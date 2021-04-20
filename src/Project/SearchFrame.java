@@ -15,7 +15,7 @@ public class SearchFrame extends javax.swing.JFrame {
     
     public SearchFrame() {
         initComponents();
-        Database.connectDatabse(this, "root", "NIKHIL@121101");
+        Database.connectDatabse(this, "root", "NIKHIL@121101", "admin");
         conn = Database.connection;
     }
 
