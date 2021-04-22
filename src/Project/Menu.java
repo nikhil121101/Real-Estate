@@ -16,6 +16,40 @@ public class Menu extends javax.swing.JFrame {
      */
     public Menu() {
         initComponents();
+        handleOtions();
+    }
+    
+    void handleOtions() {
+        hideOptions();
+        if(Database.role.equals("admin")) {
+            editAgent.setVisible(true);
+            editEstate.setVisible(true);
+            viewEstate.setVisible(true);
+            assignAgentToEstate.setVisible(true);
+            addContract.setVisible(true);
+            agentStatistics.setVisible(true);
+        }
+        else if(Database.role.equals("office")) {
+            viewEstate.setVisible(true);
+            agentStatistics.setVisible(true);
+        }
+        else if(Database.role.equals("agent")) {
+            viewEstate.setVisible(true);
+            addContract.setVisible(true);
+        }
+        else {
+            System.out.println("Invalid user type: " + Database.role);
+            System.exit(0);
+        }
+    }
+    
+    void hideOptions() {
+        editAgent.setVisible(false);
+        editEstate.setVisible(false);
+        assignAgentToEstate.setVisible(false);
+        viewEstate.setVisible(false);
+        addContract.setVisible(false);
+        agentStatistics.setVisible(false);
     }
 
     /**
@@ -30,7 +64,9 @@ public class Menu extends javax.swing.JFrame {
         viewEstate = new javax.swing.JButton();
         editEstate = new javax.swing.JButton();
         editAgent = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        assignAgentToEstate = new javax.swing.JButton();
+        addContract = new javax.swing.JButton();
+        agentStatistics = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,11 +94,27 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Assign Agent To Estate");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        assignAgentToEstate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        assignAgentToEstate.setText("Assign Agent To Estate");
+        assignAgentToEstate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                assignAgentToEstateActionPerformed(evt);
+            }
+        });
+
+        addContract.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        addContract.setText("Add Contract");
+        addContract.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addContractActionPerformed(evt);
+            }
+        });
+
+        agentStatistics.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        agentStatistics.setText("Agent Statistics");
+        agentStatistics.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agentStatisticsActionPerformed(evt);
             }
         });
 
@@ -70,56 +122,68 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(324, 324, 324)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(62, 62, 62)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(editAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(viewEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agentStatistics, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(viewEstate, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-                            .addComponent(editEstate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(editAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 310, Short.MAX_VALUE))))
+                    .addComponent(addContract, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(assignAgentToEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(viewEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(editEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(viewEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addComponent(editAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(assignAgentToEstate, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addContract, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(agentStatistics, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(146, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewEstateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewEstateActionPerformed
-        this.setVisible(false);
+        
         new SearchFrame().setVisible(true);
     }//GEN-LAST:event_viewEstateActionPerformed
 
     private void editEstateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editEstateActionPerformed
-        this.setVisible(false);
+        
         new EditEstate().setVisible(true);
     }//GEN-LAST:event_editEstateActionPerformed
 
     private void editAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAgentActionPerformed
-        this.setVisible(false);
+        
         new EditAgent().setVisible(true);
     }//GEN-LAST:event_editAgentActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.setVisible(false);
+    private void assignAgentToEstateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignAgentToEstateActionPerformed
+        
         new AssignAgent().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_assignAgentToEstateActionPerformed
+
+    private void addContractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addContractActionPerformed
+        new AddContract().setVisible(true);
+    }//GEN-LAST:event_addContractActionPerformed
+
+    private void agentStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agentStatisticsActionPerformed
+        // TODO add your handling code here:
+        new Office().setVisible(true);
+    }//GEN-LAST:event_agentStatisticsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,6 +213,7 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Menu().setVisible(true);
@@ -157,9 +222,11 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addContract;
+    private javax.swing.JButton agentStatistics;
+    private javax.swing.JButton assignAgentToEstate;
     private javax.swing.JButton editAgent;
     private javax.swing.JButton editEstate;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton viewEstate;
     // End of variables declaration//GEN-END:variables
 }
